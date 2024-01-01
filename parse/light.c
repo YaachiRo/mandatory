@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: idelfag < idelfag@student.1337.ma>         +#+  +:+       +#+        */
+/*   By: idelfag <idelfag@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 13:46:03 by idelfag           #+#    #+#             */
-/*   Updated: 2023/12/31 01:32:30 by idelfag          ###   ########.fr       */
+/*   Updated: 2024/01/01 14:32:51 by idelfag          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,9 @@ void	light_intensity_color(char **line, t_vars *vars, int *i)
 	vars->parse.light.intensity = parse_number(line[*i], &j, vars);
 	if (line[*i][j])
 		msg_exit_free("parsing light infos\n", 1, vars);
-	(*i)++;
-	j = 0;
-	vars->parse.light.color.x = (parse_number(line[*i], &j, vars) / 255.f);
-	skip_char(line[*i], ',', &j, vars);
-	vars->parse.light.color.y = (parse_number(line[*i], &j, vars) / 255.f);
-	skip_char(line[*i], ',', &j, vars);
-	vars->parse.light.color.z = (parse_number(line[*i], &j, vars) / 255.f);
-	if (line[*i][j])
-		msg_exit_free("parsing light infos\n", 1, vars);
+	vars->parse.light.color.x = 1.0f;
+	vars->parse.light.color.y = 1.0f;
+	vars->parse.light.color.z = 1.0f;
 }
 
 void	parse_light(char **line, t_vars *vars)
@@ -64,7 +58,7 @@ void	parse_light(char **line, t_vars *vars)
 	int	i;
 
 	i = 1;
-	if (ft_tablen(line) != 4)
+	if (ft_tablen(line) != 3)
 		msg_exit_free("parsing light infos\n", 1, vars);
 	light_position(line, vars, &i);
 	light_intensity_color(line, vars, &i);

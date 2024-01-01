@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: idelfag < idelfag@student.1337.ma>         +#+  +:+       +#+        */
+/*   By: idelfag <idelfag@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 23:05:45 by idelfag           #+#    #+#             */
-/*   Updated: 2023/12/31 01:28:53 by idelfag          ###   ########.fr       */
+/*   Updated: 2024/01/01 14:22:54 by idelfag          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,10 @@
 void	skip_char(char *line, char c, int *index, t_vars *vars)
 {
 	if (line[*index] != c || !line[*index])
-	{
-		write(2, "Error\n check configuration file\n", 31);
-		msg_exit_free("", 1, vars);
-	}
+		msg_exit_free("Error\n check configuration file\n", 1, vars);
 	(*index)++;
 	if (!line[*index])
-	{
-		write(2, "Error\n check configuration file\n", 31);
-		msg_exit_free("", 1, vars);
-	}
+		msg_exit_free("Error\n check configuration file\n", 1, vars);
 }
 
 int	ft_isspace(int c)
