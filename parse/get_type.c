@@ -3,14 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   get_type.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: idelfag < idelfag@student.1337.ma>         +#+  +:+       +#+        */
+/*   By: idelfag <idelfag@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 23:05:59 by idelfag           #+#    #+#             */
-/*   Updated: 2023/12/31 01:32:18 by idelfag          ###   ########.fr       */
+/*   Updated: 2024/01/01 15:08:09 by idelfag          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
+
+int	check_if_valid(char **lines, char c, int min, int max)
+{
+	int	i;
+	int	j;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (lines[i])
+	{
+		j = 0;
+		while (lines[i][j] && ft_isspace(lines[i][j]))
+			j++;
+		if (lines[i][j] == c)
+			count++;
+		i++;
+	}
+	if (count >= min && count <= max)
+		return (1);
+	return (0);
+}
 
 void	parse_line(t_vars *vars, int *index)
 {
@@ -58,26 +80,24 @@ void	get_content(t_vars *vars)
 {
 	int		i;
 	int		index;
-	int		flag;
 
 	i = 0;
-	flag = 0;
 	index = 0;
+	if (!check_if_valid(vars->lines, 'C', 1, 1)
+		|| !check_if_valid(vars->lines, 'L', 1, 1)
+		|| !check_if_valid(vars->lines, 'A', 0, 1))
+	{
+		free_tab(vars->lines);
+		message_exit("bad config file\n", 1);
+	}
 	vars->obj_count = count_objs(vars->lines);
 	vars->parse.obj = malloc(sizeof(t_object) * (vars->obj_count + 1));
 	while (vars->lines[i])
 	{
 		vars->line = ft_split_two(vars->lines[i], "\t\n\v\f\r ");
-		if (!ft_strcmp(vars->line[0], "C") || !ft_strcmp(vars->line[0], "L"))
-			flag++;
 		if (vars->line && vars->line[0])
 			parse_line(vars, &index);
 		i++;
-	}
-	if (flag != 2)
-	{
-		free(vars->lines);
-		message_exit("parse file is not correct\n", 1);
 	}
 	free_tab(vars->lines);
 }
